@@ -1,0 +1,157 @@
+doctype html
+html(lang="vi")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title 3D Model Viewer với Hotspot
+    script(type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js")
+    style.
+      body { text-align: center; font-family: Arial, sans-serif; padding: 20px; }
+      h2 { color: #333; }
+      model-viewer {
+          width: 100%;
+          height: 500px;
+          border: 3px solid #007bff;
+          border-radius: 10px;
+          box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+      }
+      .hotspot {
+          background: rgba(255, 0, 0, 0.8);
+          border-radius: 50%;
+          width: 16px;
+          height: 16px;
+          border: 2px solid white;
+          cursor: pointer;
+          position: absolute;
+      }
+      @keyframes fadeBounce {
+          0% { opacity: 0; transform: translateY(-10px) scale(0.9); }
+          50% { opacity: 0.7; transform: translateY(0) scale(1.05); }
+          100% { opacity: 1; transform: scale(1); }
+      }
+      .tooltip {
+          position: absolute;
+          background: white;
+          padding: 8px 12px;
+          border-radius: 5px;
+          display: none;
+          font-size: 14px;
+          box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+          pointer-events: none;
+          opacity: 0;
+          transition: opacity 0.3s ease-in-out;
+      }
+      .tooltip img {
+          width: 100px;
+          height: auto;
+          margin-bottom: 5px;
+      }
+      .input-container { margin: 15px 0; }
+      input, button {
+          padding: 8px;
+          margin: 5px;
+          border-radius: 5px;
+          border: 1px solid #ccc;
+      }
+      button {
+          cursor: pointer;
+          background: #007bff;
+          color: white;
+          border: none;
+          transition: 0.3s;
+      }
+      button:hover { background: #0056b3; }
+
+  body
+    h2 3D Model Viewer
+    div(hotspot-data=hotspot)
+    // Chọn tệp từ máy
+    .input-container
+      input#fileInput(type="file" accept=".gltf,.glb,.usdz")
+
+    // Nhập ID Google Drive
+    .input-container
+      input#driveInput(type="text" placeholder="Model Url")
+      button(onclick="loadModel()") Get URL
+
+    // Model Viewer
+    model-viewer#modelViewer(
+      ar
+      ar-modes="webxr scene-viewer quick-look"
+      camera-controls
+      auto-rotate
+      shadow-intensity="1"
+      interaction-prompt="none"
+      exposure="1"
+    )
+
+    // Tooltip
+    #tooltip.tooltip
+      img#tooltip-img(src="" alt="Hotspot Image")
+      p#tooltip-text
+
+    script.
+      const modelViewer = document.getElementById("modelViewer");
+      const fileInput = document.getElementById("fileInput");
+      const tooltip = document.getElementById("tooltip");
+      const hotspots1 = [
+        { slot: "hotspot-1", x: "-0.15m", y: "0.2m", z: "0m", info: "RAM",img:"https://m.media-amazon.com/images/I/61XmhmEup8L._AC_SL1000_.jpg" },
+      ];
+      const hotspots = JSON.parse(document.querySelector("[hotspot-data]").getAttribute("hotspot-data")) ;
+      console.log(hotspots1) ;
+      console.log(hotspots) ;   
+      if (hotspots.length > 0) {
+       for (let hotspot of hotspots) {
+            const button = document.createElement("button");
+            button.className = "hotspot";
+            button.setAttribute("slot", hotspot.slot);
+            button.dataset.info = hotspot.info;
+            button.innerText = hotspot.info;
+            button.setAttribute("data-img", hotspot.img);
+            button.setAttribute("data-position", `${hotspot.x} ${hotspot.y} ${hotspot.z}`);
+            modelViewer.appendChild(button);
+        }
+      }
+
+      fileInput.addEventListener("change", function(event) {
+          const file = event.target.files[0];
+          if (file) {
+              console.log(file) ;
+              const url = URL.createObjectURL(file);
+              modelViewer.setAttribute("src", url);
+          }
+      });
+
+      function loadModel() {
+          const fileId = document.getElementById("driveInput").value.trim();
+          if (fileId) {
+              const url = fileId;
+              modelViewer.setAttribute("src", url);
+              alert(url);
+          } else {
+              alert("Vui lòng nhập Url tệp hợp lệ!");
+          }
+      }
+
+      document.querySelectorAll(".hotspot").forEach(hotspot => {
+          hotspot.addEventListener("click", (event) => {
+              event.stopPropagation();
+              const tooltip = document.getElementById("tooltip");
+              const tooltipImg = document.getElementById("tooltip-img");
+              const tooltipText = document.getElementById("tooltip-text");
+
+              tooltipText.innerText = event.target.getAttribute("data-info");
+              tooltipImg.src = event.target.getAttribute("data-img");
+              tooltip.style.display = "block";
+
+              const rect = event.target.getBoundingClientRect();
+              tooltip.style.left = `${rect.left + window.scrollX + 20}px`;
+              tooltip.style.top = `${rect.top + window.scrollY - 30}px`;
+
+              tooltip.style.animation = "fadeBounce 0.4s ease-out forwards";
+          });
+      });
+
+      document.addEventListener("click", () => {
+          tooltip.style.display = "none";
+      });

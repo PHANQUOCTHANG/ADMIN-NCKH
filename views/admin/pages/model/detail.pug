@@ -1,0 +1,99 @@
+doctype html
+html
+  head
+    title Chi tiết Model
+    link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css")
+    style.
+      body {
+        padding: 20px;
+        background: #f4f4f4;
+        font-family: Arial, sans-serif;
+      }
+      .container {
+        max-width: 600px;
+        margin: auto;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+      }
+      .hotspot {
+        background: #007bff;
+        color: white;
+        padding: 8px 12px;
+        border-radius: 5px;
+        margin-bottom: 5px;
+        display: inline-block;
+      }
+      .btn {
+        width: 100%;
+        font-weight: bold;
+        margin-top: 10px;
+      }
+      .btn:hover {
+        opacity: 0.8;
+      }
+      .preview-img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 10px auto;
+        border-radius: 5px;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+      }
+
+
+  body
+    .container
+      h1 Chi tiết Model
+      
+      // Hiển thị tên
+      p
+        strong Tên:
+        |  #{model.name}
+      
+      // Hiển thị file nếu là ảnh hoặc model 3D
+      if model.linkFile
+        p
+          strong File:
+        if model.linkFile.endsWith('.jpg') || model.linkFile.endsWith('.png') || model.linkFile.endsWith('.gif')
+          img.preview-img(src=model.linkFile, alt="Preview")
+        else
+          a.btn.btn-outline-primary(href=model.linkFile, download) 📥 Tải file
+      
+      // Hiển thị danh sách hotspots
+      if model.hotspots.length > 0
+           table(class="table table-bordered table-hover")
+            thead
+              tr
+                th(scope="col")
+                  input(type="checkbox" name="check-all")
+                th(scope="col") STT
+                th(scope="col") Slot
+            tbody
+              each item, index in hotspot
+                tr
+                  td
+                    input(type="checkbox" name="id" value=item._id)
+                  td #{index + 1}
+                  td #{item.slot}
+                  td
+                    a(href=`/admin/hotspot/update/${item.id}` class="btn btn-warning btn-sm me-2") Sửa
+                    a(href=`/admin/hotspot/detail/${item.id}` class="btn btn-primary btn-sm me-2") Chi tiết
+                    button(class="btn btn-danger btn-sm button-delete" data-id=item._id) Xóa
+
+      else
+        br
+        br  
+        p Danh sách hotspot rỗng .
+      
+      // Nút thêm hotspot
+      a.btn.btn-success(href=`/admin/model/addHotspot/${model.id}`) ➕ Thêm hotspot
+      
+      // Nút quay lại
+      a.btn.btn-secondary(href="/") ⬅ Quay lại

@@ -1,0 +1,10 @@
+
+extends ../../layout/default.pug
+block main
+    div(class="d-flex")
+      include ../../partial/sidebar.pug
+      div(class="container my-5" style="width: 85%;")
+        h1(class="mb-4") Tổng quan
+        button(class="btn")
+            p 
+              a(href="/admin/auth/logout") Đăng xuất  

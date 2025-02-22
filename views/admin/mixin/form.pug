@@ -1,0 +1,38 @@
+//- //- form-status .
+//- mixin form-status   
+//-     div(class="mb-3")
+//-         button(class="btn btn-primary me-2" button-status="") Tất cả
+//-         button(class="btn btn-secondary me-2" button-status="inactive") Dừng hoạt động
+//-         button(class="btn btn-success" button-status="active") Hoạt động
+
+//- //- form-search .
+//- mixin form-search 
+//-     form(id="form-search" class="d-flex my-3")
+//-         input(class="form-control me-2" type="text" name="keyword" placeholder="Nhập từ khóa" value=keyword  style="width: 300px ;")
+//-         button(class="btn btn-outline-primary" type="submit") Tìm
+
+//- //- form-sort
+//- mixin form-sort 
+//-     div(class="d-flex align-items-center mb-3" sort)
+//-           label(for="sort-select" class="me-2 fw-bold") Sắp xếp:
+//-           select(id="sort-select" class="form-select w-auto" sort-select)
+//-             option(value="position-desc") Vị trí giảm dần
+//-             option(value="position-asc") Vị trí tăng dần
+//-             option(value="price-desc") Giá giảm dần
+//-             option(value="price-asc") Giá tăng dần
+//-           button(class="btn btn-danger ms-2") Clear
+
+//- form-change-all
+mixin form-change-all(url)
+    form(action=`${prefixAdmin}/product/change-all?_method=PATCH` id="form-change-all" method="POST" class="my-3")
+          div(class="input-group mb-3" style="width: 400px;")
+            select(class="form-select" name="type")
+              option(selected disabled) --Chọn hành động--
+              option(value="inactive") Dừng hoạt động
+              option(value="active") Hoạt động
+              option(value="update-position") Cập nhật vị trí
+              option(value="delete") Xóa
+            input(type="text" class="form-control d-none" name="ids" value="")
+            button(class="btn btn-primary" type="submit" style="margin-left:10px;") Áp dụng
+
+            a(href=`${url}` class="btn btn-success ms-2") + Thêm mới
