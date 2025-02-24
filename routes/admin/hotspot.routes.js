@@ -15,5 +15,13 @@ router.post("/create" , controllerHotspot.createPost) ;
 //[GET] view detail .
 router.get("/detail/:id" , controllerHotspot.detail) ;
 
+//[GET] view edit hotspot .
+router.get("/edit/:id" , controllerHotspot.edit) ;
+
+//[PATCH] edit hotspot .
+router.patch("/edit/:id" , controllerHotspot.editPatch) ;
+
+//[DELETE] delete hotspot .
+router.delete("/delete/:id" , controllerHotspot.delete) ;
 
 module.exports = router ;

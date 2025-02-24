@@ -1,0 +1,55 @@
+
+extends ../../layout/default.pug
+include ../../mixin/form.pug
+//- include ../../mixin/alert.pug
+block main
+  title Nhóm quyền 
+  //- +alert-error() 
+  style.
+      body {
+        background-color: #f8f9fa;
+      }
+      .container {
+        max-width: 500px;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      button {
+        width: 100%;
+      }
+  body
+    .container.mt-5
+      h1.text-center.mb-4 Thêm mới tài khoản
+      form(action=`/admin/account/create` method="POST")
+        .mb-3
+          label(for="fullname" class="form-label") Họ tên *
+          input(type="text" name="fullname" class="form-control" id="fullname" required)
+        .mb-3
+          label(for="email" class="form-label") Email *
+          input(type="email" name="email" class="form-control" id="email" required)
+        .mb-3
+          label(for="password" class="form-label") Mật khẩu *
+          input(type="password" name="password" class="form-control" id="password" required)
+        .mb-3
+          label(for="phone" class="form-label") Số điện thoại
+          input(type="text" name="phone" class="form-control" id="phone")
+        //- .mb-3
+        //-   label(for="avatar" class="form-label") Avatar
+        //-   input(type="file" name="avatar" class="form-control" id="avatar")
+        //- .mb-3
+        //-   label(for="role_id" class="form-label") Phân quyền
+        //-   select(name="role_id" class="form-select" id="role_id")
+        //-     option(value="") -- Chọn quyền --
+        //-     each role in roles 
+        //-         option(value=role._id) #{role.title}
+        .mb-3
+          label Trạng thái
+          .form-check
+            input(type="radio" name="status" value="active" class="form-check-input" id="active" checked)
+            label(for="active" class="form-check-label") Hoạt động
+          .form-check
+            input(type="radio" name="status" value="inactive" class="form-check-input" id="inactive")
+            label(for="inactive" class="form-check-label") Dừng hoạt động
+        button(type="submit" class="btn btn-primary") Tạo mới

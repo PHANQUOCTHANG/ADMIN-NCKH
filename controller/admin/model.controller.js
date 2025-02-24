@@ -1,6 +1,7 @@
 const e = require("express");
 const Model = require("../../model/model.model");
 const Hotspot = require("../../model/hotspot.model");
+
 //[GET] view list model .
 module.exports.index = async (req, res) => {
   const model = await Model.find({ delete: false});

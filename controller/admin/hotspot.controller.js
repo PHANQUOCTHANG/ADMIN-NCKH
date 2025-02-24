@@ -23,9 +23,9 @@ module.exports.createPost = async (req, res) => {
   try {
     const hotspots = await Hotspot.find({ delete: false, status: "active" });
     const length = hotspots.length + 1;
-    slot = "hotslot-" + length;
+    slot = "hotslpt-" + length;
   } catch {
-    slot = "hotslot-1";
+    slot = "hotspot-1";
     console.log("error");
   }
   req.body.slot = slot;
@@ -38,8 +38,8 @@ module.exports.createPost = async (req, res) => {
   res.redirect("/admin/hotspot");
 };
 
-//[GET] view update hotspot .
-module.exports.update = async (req, res) => {
+//[GET] view edit hotspot .
+module.exports.edit = async (req, res) => {
   try {
     const id = req.params.id;
     const hotspot = await Hotspot.findOne({
@@ -47,8 +47,8 @@ module.exports.update = async (req, res) => {
       status: "active",
       _id: id,
     });
-    res.render("admin/pages/hotspot/update.pug", {
-      title: "Cập nhật hotspot",
+    res.render("admin/pages/hotspot/edit.pug", {
+      title: "Cập nhật dữ liệu",
       hotspot: hotspot,
     });
   } catch {
@@ -56,15 +56,15 @@ module.exports.update = async (req, res) => {
   }
 };
 
-//[PATCH] update hotspots .
-module.exports.updatePatch = async (req, res) => {
+//[PATCH] edit hotspots .
+module.exports.editPatch = async (req, res) => {
+  console.log(req.body) ;
   try {
     const hotspotId = req.params.id;
     console.log(hotspotId);
     req.body.x += "m";
     req.body.y += "m";
     req.body.z += "m";
-    console.log(req.body);
     await Hotspot.updateOne({ _id: hotspotId }, req.body);
     res.redirect("back");
   } catch {

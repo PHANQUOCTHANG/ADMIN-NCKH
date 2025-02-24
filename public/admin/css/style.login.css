@@ -1,0 +1,90 @@
+/* // css view login . */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+  }
+  
+  .login-container {
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    width: 360px;
+    padding: 20px 30px;
+  }
+  
+  h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .form-box {
+    width: 100%;
+  }
+  
+  .input-group {
+    margin-bottom: 15px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+  }
+  
+  input[type="text"],
+  input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+  }
+  
+  input[type="text"]:focus,
+  input[type="password"]:focus {
+    border-color: #4facfe;
+    outline: none;
+  }
+  
+  .btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background: #4facfe;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .btn:hover {
+    background: #00c2fe;
+  }
+  
+  p {
+    text-align: center;
+    margin-top: 10px;
+    color: #666;
+  }
+  
+  a {
+    color: #4facfe;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }  
+/* //end css view login . */
+

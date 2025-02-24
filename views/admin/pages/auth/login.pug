@@ -1,0 +1,19 @@
+extends ../../layout/default.login.pug
+//- include ../../mixin/alert.pug
+
+
+block main
+  body
+    //- +alert-error() 
+    .login-container
+      .form-box
+        h1 Đăng Nhập
+        form(action=`/admin/auth/login` method="POST")
+          .input-group
+            label(for="email") Email
+            input#email(type="text" name="email" placeholder="Nhập email" )
+          .input-group
+            label(for="password") Mật khẩu
+            input#password(type="password" name="password" placeholder="Nhập mật khẩu")
+          .input-group
+            button(type="submit" class="btn") Đăng Nhập

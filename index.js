@@ -3,8 +3,8 @@ const path = require('path') ; // mục đích chính dùng để up load file o
 const methodOverride = require("method-override") ; // chồng phương thứcthức
 var bodyParser = require('body-parser') ; // lấy body  trên sever .
 // var flash = require('express-flash') ; // thông báo .
-// var cookieParser = require('cookie-parser') ;
-// var session = require('express-session') ;
+var cookieParser = require('cookie-parser') ; // cài cookies .
+var session = require('express-session') ;
 require("dotenv").config() ;
 
 const database = require("./config/database") ;
@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({ extended: false })) ;
 // // end
 
 // // flash
-// app.use(cookieParser('Phan Quoc Thang'));
+app.use(cookieParser('Phan Quoc Thang'));
 // app.use(session({ cookie: { maxAge: 60000 }}));
 // app.use(flash());
 // // end
