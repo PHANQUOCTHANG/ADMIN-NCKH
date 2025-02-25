@@ -3,6 +3,10 @@ extends ../../layout/default.pug
 include ../../mixin/form.pug
 block main
     body
+      - if (messages.success)
+        +alert-success()
+      - if (messages.error)
+        +alert-error()
       //- Sidebar
       div(class="d-flex")
         include ../../partial/sidebar.pug
@@ -31,7 +35,7 @@ block main
                   td #{index + 1}
                   td
                     img(src=`${item.img}` alt="" class="img-thumbnail" style="width:100px; height:100px;")
-                  td #{item.Slot}
+                  td #{item.slot}
                   td #{item.x}
                   td #{item.y}
                   td #{item.z}

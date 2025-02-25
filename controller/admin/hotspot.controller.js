@@ -23,7 +23,7 @@ module.exports.createPost = async (req, res) => {
   try {
     const hotspots = await Hotspot.find({ delete: false, status: "active" });
     const length = hotspots.length + 1;
-    slot = "hotslpt-" + length;
+    slot = "hotspot-" + length;
   } catch {
     slot = "hotspot-1";
     console.log("error");
@@ -62,9 +62,9 @@ module.exports.editPatch = async (req, res) => {
   try {
     const hotspotId = req.params.id;
     console.log(hotspotId);
-    req.body.x += "m";
-    req.body.y += "m";
-    req.body.z += "m";
+    if (!req.body.x.includes("m")) req.body.x += "m";
+    if (!req.body.y.includes("m")) req.body.y += "m";
+    if (!req.body.z.includes("m")) req.body.z += "m";
     await Hotspot.updateOne({ _id: hotspotId }, req.body);
     res.redirect("back");
   } catch {

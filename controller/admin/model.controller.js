@@ -2,14 +2,68 @@ const e = require("express");
 const Model = require("../../model/model.model");
 const Hotspot = require("../../model/hotspot.model");
 
-//[GET] view list model .
+// [GET] views product .
 module.exports.index = async (req, res) => {
-  const model = await Model.find({ delete: false});
-  res.render("admin/pages/model/index.pug", {
-    title: "Danh sách model",
+  const status = req.query.status;
+  const find = {
+    delete: false,
+  };
+  if (status) find.status = status;
+  let keyword = "";
+  if (req.query.keyword) {
+    keyword = req.query.keyword;
+    const regex = new RegExp(keyword, "i");
+    find.name = regex;
+  }
+
+  const objPage = {
+    limit: 6,
+    currentPage: 1,
+  };
+
+  if (req.query.page) {
+    objPage.currentPage = parseInt(req.query.page);
+  }
+
+  objPage.skip = (objPage.currentPage - 1) * objPage.limit;
+
+  const sizePage = await Model.countDocuments(find);
+
+  objPage.totalPage = Math.ceil(sizePage / objPage.limit);
+
+  // object sort
+
+  let sort = {};
+  if (req.query.sortKey && req.query.sortValue) {
+    const sortKey = req.query.sortKey;
+    const sortValue = req.query.sortValue;
+    //khi thêm 1 key trong object mà key đó đang ở dạng string thì không thể dùng dấu '.' mà phải dùng  object[key]  .
+    sort[sortKey] = sortValue;
+  } else {
+    sort.position = "desc"; // key  không ở dạng string .
+  }
+  // End object sort
+
+  const model = await Model.find(find)
+    .sort(sort)
+    .limit(objPage.limit)
+    .skip(objPage.skip);
+  res.render("admin/pages/model/index", {
+    title: "Danh sách sản phẩm",
     model : model ,
+    keyword: keyword,
+    objPage: objPage,
   });
 };
+
+//[GET] view list model .
+// module.exports.index = async (req, res) => {
+//   const model = await Model.find({ delete: false});
+//   res.render("admin/pages/model/index.pug", {
+//     title: "Danh sách model",
+//     model : model ,
+//   });
+// };
 
 //[GET] view create model .
 module.exports.create = async (req, res) => {
@@ -23,17 +77,19 @@ module.exports.createPost = async (req, res) => {
   try {
     const model = new Model(req.body);
     model.save() ;
+    req.flash("success" ,"Tạo model thành công") ;
     res.redirect("/admin/model") ;
   }
   catch {
-    console.log("No create model");
+    req.flash("error","Lỗi") ;
     res.redirect("/admin/model") ;
   }
 };
 
 //[GET] view detail model .
 module.exports.detail = async (req, res) => {
-  const id = req.params.id ;
+  try {
+    const id = req.params.id ;
   const model = await Model.findOne({_id : id , delete : false});
   const hotspots = [] ;
   for (let item of model.hotspots) {
@@ -46,54 +102,53 @@ module.exports.detail = async (req, res) => {
     model : model ,
     hotspot : hotspots ,
   })
+  }
+  catch {
+    
+  }
 }
 
-// //[GET] view update hotspot .
-// module.exports.update = async (req, res) => {
-//   try {
-//     const id = req.params.id;
-//     const hotspot = await Hotspot.findOne({
-//       delete: false,
-//       status: "active",
-//       _id: id,
-//     });
-//     res.render("admin/pages/hotspot/update.pug", {
-//       title: "Cập nhật hotspot",
-//       hotspot: hotspot,
-//     });
-//   } catch {
-//     console.log("error");
-//   }
-// };
+//[GET] view edit model .
+module.exports.edit = async (req, res) => {
+  try {
+    const modelId = req.params.modelId;
+    const model = await Model.findOne({
+      delete: false,
+      _id: modelId,
+    });
+    res.render("admin/pages/model/edit.pug", {
+      title: "Cập nhật model",
+      model : model ,
+    });
+  } catch {
+    console.log("error");
+  }
+};
 
-// //[PATCH] update hotspots .
-// module.exports.updatePatch = async (req, res) => {
-//   try {
-//     const hotspotId = req.params.id;
-//     console.log(hotspotId);
-//     req.body.x += "m";
-//     req.body.y += "m";
-//     req.body.z += "m";
-//     console.log(req.body);
-//     await Hotspot.updateOne({ _id: hotspotId }, req.body);
-//     res.redirect("back");
-//   } catch {
-//     console.log("error");
-//   }
-// };
+//[PATCH] edit model .
+module.exports.editPatch = async (req, res) => {
+  try {
+    const modelId = req.params.modelId;
+    console.log(req.body) ;
+    await Model.updateOne({ _id: modelId }, req.body);
+    res.redirect("back");
+  } catch {
+    console.log("error");
+  }
+};
 
-// module.exports.delete = async (req, res) => {
-//   try {
-//     const id = req.params.id;
-//     await Hotspot.updateOne({ _id: id }, { delete: true });
-//     res.redirect("/admin/hotspot");
-//   } catch {
-//     console.log("Delete no success");
-//     res.redirect("/admin/hotspot");
-//   }
-// };
+//[DELETE] delete model . 
+module.exports.delete = async (req, res) => {
+  try {
+    const modelId = req.params.modelId;
+    await Model.updateOne({ _id: modelId}, { delete: true });
+  } catch {
+    console.log("Delete no success");
+  }
+  res.redirect("/admin/model") ;
+};
 
-
+// view add hotspot in model .
 module.exports.addHotspot = async (req, res) => {
  try {
     const model = await Model.findOne({_id : req.params.modelId}) ;
@@ -118,7 +173,7 @@ module.exports.addHotspot = async (req, res) => {
  }
 }
 
-
+// add hotspot in model 
 module.exports.addHotspotPost = async (req, res) => {
  try {
     const modelId = req.params.modelId ;
@@ -140,6 +195,28 @@ module.exports.addHotspotPost = async (req, res) => {
  catch {
   console.log("error") ;
  }
- res.send("back") 
+ res.redirect("back") 
+}
+
+// delete hotspot of model .
+module.exports.deleteHotspot= async (req, res) => {
+ try {
+    const modelId = req.params.modelId ;
+    const hotspotId = req.params.hotspotId ;
+    await Model.updateOne(
+      {
+        _id : modelId ,
+      },
+      {
+        $pull : {
+          hotspots : {hotspot_id : hotspotId} ,
+        }
+      }
+    )
+ }
+ catch {
+  console.log("error") ;
+ }
+ res.redirect("back")  ;
 }
 

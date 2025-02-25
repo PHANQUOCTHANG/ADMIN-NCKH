@@ -21,8 +21,17 @@ router.get("/addHotspot/:modelId" , controllerModel.addHotspot) ;
 //[GET] add hotspot in model .
 router.post("/addHotspot/:modelId" , controllerModel.addHotspotPost) ;
 
-//[GET] add hotspot in model .
-router.post("/addHotspot/:modelId" , controllerModel.addHotspotPost) ;
+//[GET] delete hotspot in model .
+router.get("/deleteHotspot/:modelId/:hotspotId" , controllerModel.deleteHotspot) ;
+
+//[GET] view edit model .
+router.get("/edit/:modelId" , controllerModel.edit) ;
+
+//[PATCH] edit model .
+router.patch("/edit/:modelId" , controllerModel.editPatch) ;
+
+//[DELETE] delete model .
+router.delete("/delete/:modelId" , controllerModel.delete) ;
 
 
 module.exports = router ; 

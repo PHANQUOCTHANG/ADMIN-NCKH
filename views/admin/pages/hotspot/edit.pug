@@ -25,6 +25,10 @@ html
         margin-top: 10px ;
       }
   body
+    - if (messages.success)
+        +alert-success()
+    - if (messages.error)
+        +alert-error()
     .container.mt-5
       h2.text-center Cập nhật dữ Liệu
       form(action=`/admin/hotspot/edit/${hotspot.id}?_method=PATCH` method="POST")
@@ -43,7 +47,7 @@ html
         // Ảnh 
         div(class="mb-3" upload-image)
           label(for="img", class="form-label") Ảnh
-          input(type="text", name="img", id="img", class="form-control" upload-image-input)
+          input(type="text", name="img", id="img", class="form-control" upload-image-input value=hotspot)
           img(
             src=hotspot.img
             upload-image-preview

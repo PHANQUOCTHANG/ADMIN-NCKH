@@ -57,17 +57,17 @@ html
         strong Tên:
         |  #{model.name}
       
-      // Hiển thị file nếu là ảnh hoặc model 3D
-      if model.linkFile
-        p
-          strong File:
-        if model.linkFile.endsWith('.jpg') || model.linkFile.endsWith('.png') || model.linkFile.endsWith('.gif')
-          img.preview-img(src=model.linkFile, alt="Preview")
-        else
-          a.btn.btn-outline-primary(href=model.linkFile, download) 📥 Tải file
+      //- // Hiển thị file nếu là ảnh hoặc model 3D
+      //- if model.linkFile
+      //-   p
+      //-     strong File:
+      //-   if model.linkFile.endsWith('.jpg') || model.linkFile.endsWith('.png') || model.linkFile.endsWith('.gif')
+      //-     img.preview-img(src=model.linkFile, alt="Preview")
+      //-   else
+      //-     a.btn.btn-outline-primary(href=model.linkFile, download) 📥 Tải file
       
       // Hiển thị danh sách hotspots
-      if model.hotspots.length > 0
+      if hotspot.length > 0
            table(class="table table-bordered table-hover")
             thead
               tr
@@ -83,16 +83,14 @@ html
                   td #{index + 1}
                   td #{item.slot}
                   td
-                    a(href=`/admin/hotspot/update/${item.id}` class="btn btn-warning btn-sm me-2") Sửa
+                    a(href=`/admin/hotspot/edit/${item.id}` class="btn btn-warning btn-sm me-2") Sửa
                     a(href=`/admin/hotspot/detail/${item.id}` class="btn btn-primary btn-sm me-2") Chi tiết
-                    button(class="btn btn-danger btn-sm button-delete" data-id=item._id) Xóa
-
-      else
-        br
-        br  
-        p Danh sách hotspot rỗng .
+                    // Nút thêm hotspot vào model
+                    a.btn.btn-danger(href=`/admin/model/deleteHotspot/${model.id}/${item.id}`) Xóa
+      else  
+        p Danh sách hotspot : Rỗng .
       
-      // Nút thêm hotspot
+      // Nút thêm hotspot vào model
       a.btn.btn-success(href=`/admin/model/addHotspot/${model.id}`) ➕ Thêm hotspot
       
       // Nút quay lại

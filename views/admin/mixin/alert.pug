@@ -1,0 +1,15 @@
+//- alert-success .
+mixin alert-success ()
+    div(class="text-flash success")
+      - if (messages.success)
+        .message.success
+          span= messages.success
+          span(class="close") <i class="fa-solid fa-xmark"></i>
+
+//- alert-error .
+mixin alert-error ()
+    div(class="text-flash error")
+      - if (messages.error)
+        .message.error
+          span= messages.error
+          span(class="close") <i class="fa-solid fa-xmark"></i>

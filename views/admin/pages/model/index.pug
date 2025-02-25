@@ -1,8 +1,13 @@
 
 extends ../../layout/default.pug
 include ../../mixin/form.pug
+include ../../mixin/alert.pug
 block main
     body
+      - if (messages.success)
+        +alert-success()
+      - if (messages.error)
+        +alert-error()
       //- Sidebar
       div(class="d-flex")
         include ../../partial/sidebar.pug
@@ -24,21 +29,21 @@ block main
                   td #{index + 1}
                   td #{item.name}
                   td
-                    a(href=`/admin/model/update/${item.id}` class="btn btn-warning btn-sm me-2") Sửa
+                    a(href=`/admin/model/edit/${item.id}` class="btn btn-warning btn-sm me-2") Sửa
                     a(href=`/admin/model/detail/${item.id}` class="btn btn-primary btn-sm me-2") Chi tiết
                     button(class="btn btn-danger btn-sm button-delete" data-id=item._id) Xóa
 
-        //-   nav(aria-label="Page navigation")
-        //-     ul(class="pagination justify-content-center")
-        //-       if objPage.currentPage > 1
-        //-         li(class="page-item")
-        //-           button(class="page-link" number-page=objPage.currentPage-1) Trước
-        //-       - for (var i = 1; i <= objPage.totalPage; i++)
-        //-         li(class=`page-item ${objPage.currentPage === i ? 'active' : ''}`)
-        //-           button(class="page-link" number-page=i) #{i}
-        //-       if objPage.currentPage < objPage.totalPage
-        //-         li(class="page-item")
-        //-           button(class="page-link" number-page=objPage.currentPage+1) Tiếp
+          nav(aria-label="Page navigation")
+            ul(class="pagination justify-content-center")
+              if objPage.currentPage > 1
+                li(class="page-item")
+                  button(class="page-link" number-page=objPage.currentPage-1) Trước
+              - for (var i = 1; i <= objPage.totalPage; i++)
+                li(class=`page-item ${objPage.currentPage === i ? 'active' : ''}`)
+                  button(class="page-link" number-page=i) #{i}
+              if objPage.currentPage < objPage.totalPage
+                li(class="page-item")
+                  button(class="page-link" number-page=objPage.currentPage+1) Tiếp
 
         //-   form(action="" method="POST" id="form-changeStatus" data-path=`${prefixAdmin}/product/change-status`)
 
