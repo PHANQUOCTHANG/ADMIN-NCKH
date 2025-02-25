@@ -31,7 +31,7 @@ app.use(flash());
 
 
 
-const port = 8080 ;
+const port = process.env.PORT;
 // app.locals.prefixAdmin = systemConfig.prefixAdmin ;
 
 // file public.

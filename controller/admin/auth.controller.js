@@ -1,14 +1,14 @@
 const Account = require("../../model/account.model") ;  
 const md5 = require('md5') ;
 
-// view login .
+// [GET] view login .
 module.exports.login = async (req,res) => {
     res.render("admin/pages/auth/login" , {
         title : "Đăng nhập" ,
     })   
 }
 
-// login
+// [POST] login
 module.exports.loginPost = async (req,res) => {
     const email = await Account.findOne(
         {
@@ -30,7 +30,7 @@ module.exports.loginPost = async (req,res) => {
     res.redirect("/admin/dashboard") ;
 }
 
-// log out .
+//[GET] log out .
 module.exports.logout = async (req,res) => {
     res.clearCookie("token") ;
     res.redirect("/admin/auth/login") ;

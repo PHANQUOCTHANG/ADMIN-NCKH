@@ -1,8 +1,6 @@
 const Account = require("../../model/account.model") ;
 const md5 = require('md5') ;
 
-
-
 //[GET] views list account admin .
 module.exports.index = async (req,res) => {
     const accounts = await Account.find({delete : false}).select("-token -password") ;

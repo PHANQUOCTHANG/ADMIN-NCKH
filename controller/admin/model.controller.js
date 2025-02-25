@@ -2,7 +2,7 @@ const e = require("express");
 const Model = require("../../model/model.model");
 const Hotspot = require("../../model/hotspot.model");
 
-// [GET] views product .
+// [GET] views model .
 module.exports.index = async (req, res) => {
   const status = req.query.status;
   const find = {
@@ -32,7 +32,6 @@ module.exports.index = async (req, res) => {
   objPage.totalPage = Math.ceil(sizePage / objPage.limit);
 
   // object sort
-
   let sort = {};
   if (req.query.sortKey && req.query.sortValue) {
     const sortKey = req.query.sortKey;
@@ -49,21 +48,12 @@ module.exports.index = async (req, res) => {
     .limit(objPage.limit)
     .skip(objPage.skip);
   res.render("admin/pages/model/index", {
-    title: "Danh sách sản phẩm",
+    title: "Danh sách Model",
     model : model ,
     keyword: keyword,
     objPage: objPage,
   });
 };
-
-//[GET] view list model .
-// module.exports.index = async (req, res) => {
-//   const model = await Model.find({ delete: false});
-//   res.render("admin/pages/model/index.pug", {
-//     title: "Danh sách model",
-//     model : model ,
-//   });
-// };
 
 //[GET] view create model .
 module.exports.create = async (req, res) => {

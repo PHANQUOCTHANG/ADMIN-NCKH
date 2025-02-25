@@ -1,4 +1,3 @@
-
 const routerDashboard = require("./dashboard.routes") ;
 const routerModel = require("./model.routes") ;
 const routerHotspot = require("./hotspot.routes") ;
