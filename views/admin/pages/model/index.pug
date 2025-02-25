@@ -35,7 +35,7 @@ block main
 
           nav(aria-label="Page navigation")
             ul(class="pagination justify-content-center")
-              if objPage.currentPage > 1
+              if objPage.currentPage > 1`
                 li(class="page-item")
                   button(class="page-link" number-page=objPage.currentPage-1) Trước
               - for (var i = 1; i <= objPage.totalPage; i++)
