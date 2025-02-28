@@ -17,16 +17,17 @@ module.exports.loginPost = async (req,res) => {
         }
     )
     if (!email) {
-        // req.flash("error" , "email không tồn tại") ;
+        req.flash("error" , "Email không tồn tại") ;
         res.redirect("back") ;
         return ;
     }
     if (email.password != md5(req.body.password)) {
-        // req.flash("error" , "Mật khẩu sai") ;
+        req.flash("error" , "Sai mật khẩu") ;
         res.redirect("back") ;
         return ;
     }
     res.cookie("token" , email.token) ; // save token in cookie to check login .
+    req.flash("success" , "Đăng nhập thành công") ;
     res.redirect("/admin/dashboard") ;
 }
 

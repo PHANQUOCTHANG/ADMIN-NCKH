@@ -23,8 +23,8 @@
 //-           button(class="btn btn-danger ms-2") Clear
 
 //- form-change-all
-mixin form-change-all(url)
-    form(action=`${prefixAdmin}/product/change-all?_method=PATCH` id="form-change-all" method="POST" class="my-3")
+mixin form-change-all(url_changeAll , url_create)
+    form(action=`${url_changeAll}?_method=PATCH` id="form-change-all" method="POST" class="my-3")
           div(class="input-group mb-3" style="width: 400px;")
             select(class="form-select" name="type")
               option(selected disabled) --Chọn hành động--
@@ -35,11 +35,11 @@ mixin form-change-all(url)
             input(type="text" class="form-control d-none" name="ids" value="")
             button(class="btn btn-primary" type="submit" style="margin-left:10px;") Áp dụng
 
-            a(href=`${url}` class="btn btn-success ms-2") + Thêm mới
+            a(href=`${url_create}` class="btn btn-success ms-2") + Thêm mới
 
 //- form-add/delete many hotspot of model .
-mixin form-delete-add()
-    form(action=`/admin/model/change-all?_method=PATCH` id="form-change-all" method="POST" class="my-3")
+mixin form-add(url_changeAll , url_create , modelId)
+    form(action=`${url_changeAll}?_method=PATCH` id="form-change-all" method="POST" class="my-3")
           div(class="input-group mb-3" style="width: 400px;")
             select(class="form-select" name="type")
               option(selected disabled) --Chọn hành động--
@@ -47,8 +47,9 @@ mixin form-delete-add()
               //- option(value="active") Hoạt động
               //- option(value="update-position") Cập nhật vị trí
               option(value="add") Thêm
-              option(value="delete") Xóa
+              //- option(value="delete") Xóa
             input(type="text" class="form-control d-none" name="ids" value="")
+            input(type="text" class="form-control d-none" name="modelId" value=modelId)
             button(class="btn btn-primary" type="submit" style="margin-left:10px;") Áp dụng
 
-            //- a(href=`${url}` class="btn btn-success ms-2") + Thêm mới
+            a(href=`${url_create}` class="btn btn-success ms-2") + Thêm mới

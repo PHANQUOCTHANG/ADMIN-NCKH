@@ -1,10 +1,14 @@
 extends ../../layout/default.login.pug
-//- include ../../mixin/alert.pug
+include ../../mixin/alert.pug
 
 
 block main
   body
-    //- +alert-error() 
+    //- alert 
+    - if (messages.success)
+        +alert-success()
+    - if (messages.error)
+        +alert-error() 
     .login-container
       .form-box
         h1 Đăng Nhập

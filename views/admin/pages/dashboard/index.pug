@@ -1,10 +1,17 @@
 
 extends ../../layout/default.pug
+include ../../mixin/alert.pug
 block main
-    div(class="d-flex")
-      include ../../partial/sidebar.pug
-      div(class="container my-5" style="width: 85%;")
-        h1(class="mb-4") Tổng quan
-        button(class="btn")
-            p 
-              a(href="/admin/auth/logout" class="btn btn-primary") Đăng xuất  
+    body
+      //- alert 
+      - if (messages.success)
+        +alert-success()
+      - if (messages.error)
+        +alert-error()
+      div(class="d-flex")
+        include ../../partial/sidebar.pug
+        div(class="container my-5" style="width: 85%;")
+          h1(class="mb-4") Tổng quan
+          button(class="btn")
+              p 
+                a(href="/admin/auth/logout" class="btn btn-primary") Đăng xuất  

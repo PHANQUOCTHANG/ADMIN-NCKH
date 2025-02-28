@@ -4,6 +4,7 @@ include ../../mixin/form.pug
 include ../../mixin/alert.pug
 block main
     body
+      //- alert 
       - if (messages.success)
         +alert-success()
       - if (messages.error)
@@ -13,7 +14,9 @@ block main
         include ../../partial/sidebar.pug
         div(class="container my-5" style="width: 85%;")
           h1(class="mb-4") #{title}
-          +form-change-all("/admin/model/create")
+          -const url_changeAll = "/admin/model/change-all" 
+          -const url_create = "/admin/model/create"  
+          +form-change-all(url_changeAll , url_create)
           table(class="table table-bordered table-hover")
             thead
               tr
@@ -45,8 +48,7 @@ block main
                 li(class="page-item")
                   button(class="page-link" number-page=objPage.currentPage+1) Tiếp
 
-        //-   form(action="" method="POST" id="form-changeStatus" data-path=`${prefixAdmin}/product/change-status`)
-
+        //- -   form(action="" method="POST" id="form-changeStatus" data-path=`admin/model/change-status`)
 
         form(action="" method="POST" id="form-delete" data-path=`/admin/model/delete`)
       script(src="/admin/js/script.js")

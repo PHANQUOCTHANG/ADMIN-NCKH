@@ -1,8 +1,10 @@
 
 extends ../../layout/default.pug
 include ../../mixin/form.pug
+include ../../mixin/alert.pug
 block main
     body
+      //- alert 
       - if (messages.success)
         +alert-success()
       - if (messages.error)
@@ -12,7 +14,9 @@ block main
         include ../../partial/sidebar.pug
         div(class="container my-5" style="width: 85%;")
           h1(class="mb-4") #{title}
-          +form-delete-add()
+          -const url_changeAll = "/admin/model/change-all" 
+          -const url_create = "/admin/hotspot/create"  
+          +form-add(url_changeAll , url_create , modelId)
           table(class="table table-bordered table-hover")
             thead
               tr

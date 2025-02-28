@@ -24,4 +24,7 @@ router.patch("/edit/:id" , controllerHotspot.editPatch) ;
 //[DELETE] delete hotspot .
 router.delete("/delete/:id" , controllerHotspot.delete) ;
 
+//[PATCH] change-all .
+router.patch("/change-all" , controllerHotspot.changeAll)
+
 module.exports = router ;

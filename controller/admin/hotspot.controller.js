@@ -99,3 +99,56 @@ module.exports.detail = async (req,res) => {
         res.redirect("/admin/hotspot");
       }
 }
+
+//[PATCH] change all .
+module.exports.changeAll = async (req, res) => {
+  try {
+    // const updateBy = {
+    //   account_id: res.locals.user.id,
+    //   updateAt: new Date(),
+    // };
+    const type = req.body.type;
+    const ids = req.body.ids.split(", ");
+    console.log(type);
+    console.log(ids);
+
+    switch (type) {
+      case "active":
+        await Hotspot.updateMany(
+          { _id: { $in: ids } },
+          {
+            status: "active",
+            // $push: { updateBy: updateBy },
+          }
+        );
+        req.flash("success" , "Thay đổi trạng thái thành công") ;
+        break;
+      case "inactive":
+        await Hotspot.updateMany(
+          { _id: { $in: ids } },
+          {
+            status: "inactive",
+            // $push: { updateBy: updateBy },
+          }
+        );
+        req.flash("success" , "Thay đổi trạng thái thành công") ;
+        break;
+      case "delete":
+        // const deleteBy = {
+        //   account_id: res.locals.user.id,
+        //   deleteAt: new Date(),
+        // };
+        await Hotspot.updateMany(
+          { _id: { $in: ids } },
+          { delete: true }
+          // { delete: true, deleteBy: deleteBy }
+        );
+        req.flash("success" , "Xóa thành công") ;
+        break;
+      default:
+        break;
+    }
+  } catch {req.flash("error" , "Xóa thất bại")}
+
+  res.redirect("back");
+};

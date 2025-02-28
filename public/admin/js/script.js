@@ -53,3 +53,59 @@ if (buttonHotspot.length > 0) {
     });
   } 
 }
+
+//CHECK-ALL
+const checkAll = document.querySelector("input[name = check-all]");
+const checkId = document.querySelectorAll("input[name=id]");
+if (checkAll) {
+  checkAll.addEventListener("click", () => {
+    checkId.forEach((item) => {
+      item.checked = checkAll.checked;
+    });
+  });
+}
+checkId.forEach((item) => {
+  item.addEventListener("click", () => {
+    const countCheckId = document.querySelectorAll("input[name=id]:checked");
+    if (countCheckId.length === checkId.length) {
+      checkAll.checked = true;
+    } else checkAll.checked = false;
+  });
+});
+// END
+
+
+// CHANGE-ALL
+const formChangeAll = document.querySelector("#form-change-all");
+const type = document.querySelector("[name=type]");
+console.log(formChangeAll) ;
+console.log(type) ;
+if (formChangeAll) {
+  formChangeAll.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const id = document.querySelectorAll("input[name=id]:checked"); // mảng chứa các phần tử được chọn để thay đổi .
+    if (id.length > 0) {
+      let ids = [];
+      const inputIds = formChangeAll.querySelector("[name=ids]");
+      id.forEach((item) => {
+        ids.push(item.value) ;
+        // if (type.value === "update-position") {
+        //   const position = item
+        //     .closest("tr")
+        //     .querySelector("input[name=position]");
+        //   const idPosition = `${item.value}-${position.value}`;
+        //   ids.push(idPosition);
+        // } else ids.push(item.value);
+      });
+      if (type.value === "delete") {
+        const isConfirm = confirm("Bạn có chắc muốn xóa không?");
+        if (!isConfirm) return;
+      }
+      inputIds.value = ids.join(", ");
+      formChangeAll.submit();
+    } else {
+      alert("Vui chon 1 ban ghi!");
+    }
+  });
+}
+// END

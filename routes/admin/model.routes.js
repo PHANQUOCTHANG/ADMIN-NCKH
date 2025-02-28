@@ -33,5 +33,8 @@ router.patch("/edit/:modelId" , controllerModel.editPatch) ;
 //[DELETE] delete model .
 router.delete("/delete/:modelId" , controllerModel.delete) ;
 
+//[PATCH] change-all .
+router.patch("/change-all" , controllerModel.changeAll)
+
 
 module.exports = router ; 
