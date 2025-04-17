@@ -5,9 +5,11 @@ const modelSchema = new mongoose.Schema({
   linkFile: String,
   hotspots: [
     {
-        hotspot_id : String ,
+      hotspot_id: String,
     },
   ],
+  thumbnail: String,
+  description: String,
   delete: {
     type: Boolean,
     default: false,

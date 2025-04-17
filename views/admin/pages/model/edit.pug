@@ -30,5 +30,11 @@ block main
         .mb-3
           label.form-label(for="linkFile") Hình ảnh :
           input.form-control(type="text" name="linkFile" id="linkFile" value=model.linkFile)
+          .mb-3
+        label.form-label(for="description") Mô tả :
+        textarea.form-control(name="description" id="description" rows="3" value=model.description)
+      .mb-3
+        label.form-label(for="thumbnail") Ảnh đại diện (thumbnail) :
+        input.form-control(type="text" name="thumbnail" id="thumbnail" value=model.thumbnail)
         button.btn.btn-primary(type="submit") Gửi
     script(src="/admin/js/script.js") 
