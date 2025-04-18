@@ -36,8 +36,8 @@ block main
                 each question, index in assignments
                     tr
                         td
-                        input(type="checkbox" name="id" value=question._id)
-                        td #{index + 1}
+                          input(type="checkbox" name="id" value=question._id)
+                          td #{index + 1}
                         td #{question.question}
                         td
                           ul(style="margin: 0; padding-left: 20px;")

@@ -82,7 +82,12 @@ module.exports.editPatch = async (req, res) => {
         assignment.correct_answer = req.body.answerD;
         break;
     }
-    await Assignment.updateOne({ _id: assignmentId }, assignment);
+    console.log(assignment) ;
+    await Assignment.updateOne({ _id: assignmentId }, {
+        question : assignment.question ,
+        answers : assignment.answers ,
+        correct_answer : assignment.correct_answer ,
+    });
     res.redirect("back");
   } catch {}
 };
