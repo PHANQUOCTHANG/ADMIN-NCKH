@@ -11,5 +11,6 @@ module.exports = (app) => {
     app.use(PATH_ADMIN + "/hotspot" ,  middleware.requireAuth , routerHotspot) // hotspot .
     app.use(PATH_ADMIN + "/model" ,  middleware.requireAuth , routerModel) // model .
     app.use(PATH_ADMIN + "/account" , middleware.requireAuth , routerAccount) // account .
+    app.use(PATH_ADMIN + "/assignment" , middleware.requireAuth , routerAccount) // account .
     app.use(PATH_ADMIN + "/auth" , routerAuth) // auth .
 }

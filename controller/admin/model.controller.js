@@ -106,6 +106,7 @@ module.exports.edit = async (req, res) => {
       delete: false,
       _id: modelId,
     });
+    console.log(model.id) ;
     res.render("admin/pages/model/edit.pug", {
       title: "Cập nhật model",
       model: model,
