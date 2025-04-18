@@ -1,0 +1,77 @@
+extends ../../layout/default
+
+block main
+    style.
+        body {
+        font-family: Arial, sans-serif;
+        background: #f4f6f9;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        }
+        .form-container {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        width: 400px;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+        .form-container h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        }
+        label {
+        font-weight: bold;
+        margin-top: 10px;
+        display: block;
+        }
+        input[type="text"],
+        select {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        }
+        button {
+        margin-top: 20px;
+        width: 100%;
+        padding: 12px;
+        background-color: #4CAF50;
+        color: white;
+        font-weight: bold;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        }
+        button:hover {
+        background-color: #45a049;
+        }
+    body
+    .form-container
+        h2 Nhập Câu Hỏi
+        form(action=`/admin/assignment/edit/${assignment.id}?_method=PATCH` method="POST")
+            label(for="question") Câu hỏi
+            input#question(type="text" name="question" value=assignment.question)
+
+            label(for="answerA") Đáp án A
+            input#answerA(type="text" name="answerA" value=assignment.answers[0])
+
+            label(for="answerB") Đáp án B
+            input#answerB(type="text" name="answerB" value=assignment.answers[1])  
+
+            label(for="answerC") Đáp án C
+            input#answerC(type="text" name="answerC" value=assignment.answers[2])
+
+            label(for="answerD") Đáp án D
+            input#answerD(type="text" name="answerD" value=assignment.answers[3])
+
+            label(for="correctAnswer") Đáp án đúng
+            select#correctAnswer(name="correctAnswer")
+                option(value="A" selected=(assignment.correct_answer)=="A"?true:false) A
+                option(value="B" selected=(assignment.correct_answer)=="B"?true:false) B
+                option(value="C" selected=(assignment.correct_answer)=="C"?true:false) C
+                option(value="D" selected=(assignment.correct_answer)=="D"?true:false) D
+
+            button(type="submit") Lưu câu hỏi

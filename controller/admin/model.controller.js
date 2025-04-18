@@ -67,7 +67,7 @@ module.exports.create = async (req, res) => {
 module.exports.createPost = async (req, res) => {
   try {
     const model = new Model(req.body);
-    model.save();
+    await model.save();
     req.flash("success", "Tạo model thành công");
     res.redirect("/admin/model");
   } catch {
