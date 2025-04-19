@@ -35,6 +35,7 @@ block main
           textarea.form-control(name="description" id="description" rows="3" value=model.description)
         .mb-3
          label.form-label(for="thumbnail") Ảnh đại diện (thumbnail) :
-          input.form-control(type="text" name="thumbnail" id="thumbnail" value=model.thumbnail)
+         input.form-control(type="text" name="thumbnail" id="thumbnail" value=model.thumbnail)
+         img.img-preview.img-hotspots(src=model.thumbnail || "", alt="Preview")
         button.btn.btn-primary(type="submit") Gửi
     script(src="/admin/js/script.js") 

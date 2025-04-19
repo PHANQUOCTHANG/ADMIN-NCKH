@@ -16,6 +16,14 @@ html
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       }
+      .img-preview {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        margin-top: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
       button {
         width: 100%;
       }
@@ -34,6 +42,8 @@ html
         textarea.form-control(name="description" id="description" rows="3")
       .mb-3
         label.form-label(for="thumbnail") Ảnh đại diện (thumbnail) :
-        input.form-control(type="text" name="thumbnail" id="thumbnail")
+        input.form-control(type="text" name="thumbnail" id="thumbnail" , class="img-hotspots-input")
+        img.img-preview.img-hotspots(src="", alt="Preview" , class="d-none") 
       button.btn.btn-primary(type="submit") Gửi
   script(src="/admin/js/script.js")
+  script(src="/admin/js/hotspot.js")

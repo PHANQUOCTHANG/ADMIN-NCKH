@@ -18,7 +18,7 @@ module.exports.index = async (req, res) => {
   }
 
   const objPage = {
-    limit: 10,
+    limit: 5,
     currentPage: 1,
   };
 
@@ -48,6 +48,7 @@ module.exports.index = async (req, res) => {
     .sort(sort)
     .limit(objPage.limit)
     .skip(objPage.skip);
+    console.log(model) ;
   res.render("admin/pages/model/index", {
     title: "Danh sách Model",
     model: model,

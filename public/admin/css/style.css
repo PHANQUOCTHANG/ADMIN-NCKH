@@ -46,3 +46,12 @@ body {
       transform: translateY(-20px);
     }
   }
+
+  .img-preview {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-top: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
