@@ -16,44 +16,50 @@ html
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       }
-      button {
-        width: 100%;
+      .img-preview {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        margin-top: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
       }
   body
     .container.mt-5
-      h2.text-center Nhập Dữ Liệu
+      h2.text-center.mb-4 Nhập Dữ Liệu
+
       form(action="/admin/hotspot/create" method="POST")
         .mb-3
-          label.form-label(for="x") Tọa độ X :
-          input.form-control(type="text" name="x")
+          label.form-label(for="x") Tọa độ X:
+          input.form-control(type="text", name="x", id="x")
+
         .mb-3
-          label.form-label(for="y") Tọa độ Y :
-          input.form-control(type="text" name="y")
+          label.form-label(for="y") Tọa độ Y:
+          input.form-control(type="text", name="y", id="y")
+
         .mb-3
-          label.form-label(for="z") Tọa độ Z :
-          input.form-control(type="text" name="z")
+          label.form-label(for="z") Tọa độ Z:
+          input.form-control(type="text", name="z", id="z")
+
         .mb-3
-          label.form-label(for="info") Thông tin :
-          textarea.form-control(name="info" rows="3")
+          label.form-label(for="info") Thông tin:
+          textarea.form-control(name="info", id="info", rows="3")
+
         .mb-3
-          label.form-label(for="img") Hình ảnh :
-          input.form-control(type="text" name="img")
-        //- // Ảnh 
-        //- div(class="mb-3" upload-image)
-        //-   label(for="img", class="form-label") Ảnh
-        //-   input(type="file", name="img", id="img", class="form-control" upload-image-input)
-        //-   img(
-        //-     src="" 
-        //-     upload-image-preview
-        //-   ) 
+          label.form-label(for="img") Hình ảnh (URL):
+          input.form-control(type="text", name="img", id="img", class="img-hotspots-input")
+          img.img-preview.img-hotspots(src="", alt="Preview" class="d-none")
+
         .mb-3
-          label.form-label Trạng thái
-          .d-flex
-            .form-check.me-3
-              input.form-check-input(type="radio" id="active" name="status" value="active")
-              label.form-check-label(for="active") Hoạt động
-            .form-check
-              input.form-check-input(type="radio" id="inactive" name="status" value="inactive")
-              label.form-check-label(for="inactive") Dừng Hoạt động
-        button.btn.btn-primary(type="submit") Gửi
-    script(src="/admin/js/hotspot.js") 
+          label.form-label(style="margin-right:20px") Trạng thái:
+          .form-check.form-check-inline
+            input.form-check-input(type="radio", name="status", id="active", value="active")
+            label.form-check-label(for="active") Hoạt động
+          .form-check.form-check-inline
+            input.form-check-input(type="radio", name="status", id="inactive", value="inactive")
+            label.form-check-label(for="inactive") Dừng hoạt động
+
+        button.btn.btn-primary.mt-3(type="submit") Gửi
+
+    script(src="/admin/js/hotspot.js")
+    script(src="/admin/js/script.js")

@@ -1,63 +1,78 @@
 extends ../../layout/default.pug
 include ../../mixin/form.pug
 include ../../mixin/alert.pug
+
 block main
-    style.
-      body {
-        background-color: #f8f9fa;
-      }
-      .container {
-        max-width: 500px;
-        background: white;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      }
-      button {
-        width: 100%;
-      }
-      img {
-        width : 100px ;
-        height : 100px ;
-        margin-top: 10px ;
-      }
-    body
-      //- alert
-      - if (messages.success)
-          +alert-success()
-      - if (messages.error)
-          +alert-error()
-      .container.mt-5
-        h2.text-center Cập nhật dữ Liệu
-        form(action=`/admin/hotspot/edit/${hotspot.id}?_method=PATCH` method="POST")
-          .mb-3
-            label.form-label(for="x") Tọa độ X :
-            input.form-control(type="text" name="x" value=hotspot.x)
-          .mb-3
-            label.form-label(for="y") Tọa độ Y :
-            input.form-control(type="text" name="y" value=hotspot.y)
-          .mb-3
-            label.form-label(for="z") Tọa độ Z :
-            input.form-control(type="text" name="z" value=hotspot.z)
-          .mb-3
-            label.form-label(for="info") Thông tin :
-            textarea.form-control(name="info" rows="3") #{hotspot.info}
-          // Ảnh 
-          div(class="mb-3" upload-image)
-            label(for="img", class="form-label") Ảnh
-            input(type="text", name="img", id="img", class="form-control" upload-image-input value=hotspot)
-            img(
-              src=hotspot.img
-              upload-image-preview
-            ) 
-          .mb-3
-            label.form-label Trạng thái
-            .d-flex
-              .form-check.me-3
-                input.form-check-input(type="radio" id="active" name="status" value="active" checked=(hotspot.status==="active")?true:false)
-                label.form-check-label(for="active") Hoạt động
-              .form-check
-                input.form-check-input(type="radio" id="inactive" name="status" value="inactive" checked=(hotspot.status==="inactive")?true:false)
-                label.form-check-label(for="inactive") Dừng Hoạt động
-          button.btn.btn-primary(type="submit") Gửi
-      script(src="/admin/js/script.js") 
+  style.
+    body {
+      background-color: #f8f9fa;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .container {
+      max-width: 600px;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .form-label {
+      font-weight: 500;
+    }
+    .img-preview {
+      width: 100px;
+      height: 100px;
+      margin-top: 15px;
+      border-radius: 6px;
+      object-fit: cover;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .btn {
+      font-weight: 500;
+    }
+
+  body
+    // Hiển thị alert
+    - if (messages.success)
+      +alert-success()
+    - if (messages.error)
+      +alert-error()
+
+    .container.mt-5
+      h2.text-center.mb-4 Cập nhật Dữ Liệu
+
+      form(action=`/admin/hotspot/edit/${hotspot.id}?_method=PATCH`, method="POST")
+        .mb-3
+          label.form-label(for="x") Tọa độ X:
+          input.form-control(type="text", name="x", value=hotspot.x)
+
+        .mb-3
+          label.form-label(for="y") Tọa độ Y:
+          input.form-control(type="text", name="y", value=hotspot.y)
+
+        .mb-3
+          label.form-label(for="z") Tọa độ Z:
+          input.form-control(type="text", name="z", value=hotspot.z)
+
+        .mb-3
+          label.form-label(for="info") Thông tin:
+          textarea.form-control(name="info", rows="3") #{hotspot.info}
+
+        .mb-3
+          label.form-label(for="img") Hình ảnh (URL):
+          input.form-control(type="text", name="img", id="img", class="img-hotspots-input", value=hotspot.img)
+          img.img-preview.img-hotspots(src=hotspot.img || "", alt="Preview")
+
+        .mb-3
+          label.form-label Trạng thái:
+          .d-flex.align-items-center.gap-4.mt-2
+            .form-check
+              input.form-check-input(type="radio", id="active", name="status", value="active", checked=hotspot.status==="active")
+              label.form-check-label(for="active") Hoạt động
+
+            .form-check
+              input.form-check-input(type="radio", id="inactive", name="status", value="inactive", checked=hotspot.status==="inactive")
+              label.form-check-label(for="inactive") Dừng Hoạt động
+
+        button.btn.btn-primary.mt-3(type="submit") Cập nhật
+
+    script(src="/admin/js/script.js")

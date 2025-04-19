@@ -106,9 +106,12 @@ module.exports.editPatch = async (req, res) => {
 //[DELETE] delete hotspot .
 module.exports.delete = async (req, res) => {
   try {
-    const id = req.params.id;
-    await Hotspot.updateOne({ _id: id }, { delete: true });
-    res.redirect("/admin/hotspot");
+    const confirmDelete = confirm("Bạn có chắc muốn xóa không ? ") ;
+    if (confirmDelete) {
+      const id = req.params.id;
+      await Hotspot.updateOne({ _id: id }, { delete: true });
+      res.redirect("/admin/hotspot");
+    }
   } catch {
     console.log("Delete no success");
     res.redirect("/admin/hotspot");

@@ -6,92 +6,89 @@ html
     style.
       body {
         padding: 20px;
-        background: #f4f4f4;
-        font-family: Arial, sans-serif;
+        background: #f8f9fa;
+        font-family: 'Segoe UI', sans-serif;
       }
       .container {
-        max-width: 600px;
+        max-width: 800px;
         margin: auto;
-        background: white;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        background: #fff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.05);
       }
       h1 {
         text-align: center;
-        color: #333;
-        margin-bottom: 20px;
+        margin-bottom: 25px;
+        font-weight: 600;
       }
-      .hotspot {
-        background: #007bff;
-        color: white;
-        padding: 8px 12px;
-        border-radius: 5px;
-        margin-bottom: 5px;
-        display: inline-block;
+      .btn + .btn {
+        margin-left: 10px;
       }
-      .btn {
-        width: 100%;
-        font-weight: bold;
-        margin-top: 10px;
+      .table th,
+      .table td {
+        text-align: center;
+        vertical-align: middle;
       }
-      .btn:hover {
-        opacity: 0.8;
+      .badge {
+        font-size: 0.9rem;
+        padding: 6px 10px;
       }
-      .preview-img {
-        max-width: 100%;
-        height: auto;
-        display: block;
-        margin: 10px auto;
-        border-radius: 5px;
-        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+      .action-buttons .btn {
+        min-width: 70px;
+        font-size: 0.85rem;
+        padding: 5px 10px;
       }
-
+      strong , span{
+        font-size : 20px ;
+      }
 
   body
     .container
       h1 Chi tiết Model
-      
-      // Hiển thị tên
-      p
+
+      p.mb-4
         strong Tên:
-        |  #{model.name}
-      
-      //- // Hiển thị file nếu là ảnh hoặc model 3D
-      //- if model.linkFile
-      //-   p
-      //-     strong File:
-      //-   if model.linkFile.endsWith('.jpg') || model.linkFile.endsWith('.png') || model.linkFile.endsWith('.gif')
-      //-     img.preview-img(src=model.linkFile, alt="Preview")
-      //-   else
-      //-     a.btn.btn-outline-primary(href=model.linkFile, download) 📥 Tải file
-      
-      // Hiển thị danh sách hotspots
+        span.text-primary.ms-1 #{model.name}
+
       if hotspot.length > 0
-           table(class="table table-bordered table-hover")
-            thead
+        h5.mb-3 Danh sách Hotspot liên kết
+        table.table.table-bordered.table-hover
+          thead
+            tr
+              th(style="width: 5%;")
+                input(type="checkbox" name="check-all")
+              th(style="width: 10%;") STT
+              th(style="width: 25%;") Slot
+              th(style="width: 30%;") Hành động
+          tbody
+            each item, index in hotspot
               tr
-                th(scope="col")
-                  input(type="checkbox" name="check-all")
-                th(scope="col") STT
-                th(scope="col") Slot
-            tbody
-              each item, index in hotspot
-                tr
-                  td
-                    input(type="checkbox" name="id" value=item._id)
-                  td #{index + 1}
-                  td #{item.slot}
-                  td
-                    a(href=`/admin/hotspot/edit/${item.id}` class="btn btn-warning btn-sm me-2") Sửa
-                    a(href=`/admin/hotspot/detail/${item.id}` class="btn btn-primary btn-sm me-2") Chi tiết
-                    // Nút thêm hotspot vào model
-                    a.btn.btn-danger(href=`/admin/model/deleteHotspot/${model.id}/${item.id}`) Xóa
-      else  
-        p Danh sách hotspot : Rỗng .
-      
-      // Nút thêm hotspot vào model
-      a.btn.btn-success(href=`/admin/model/addHotspot/${model.id}`) ➕ Thêm hotspot
-      
-      // Nút quay lại
-      a.btn.btn-secondary(href="/") ⬅ Quay lại
+                td
+                  input(type="checkbox" name="id" value=item._id)
+                td #{index + 1}
+                td 
+                  span(class="badge bg-primary") #{item.slot}
+                td.action-buttons
+                  a(href=`/admin/hotspot/edit/${item.id}` class="btn btn-warning btn-sm me-1") Sửa
+                  a(href=`/admin/hotspot/detail/${item.id}` class="btn btn-info btn-sm text-white me-1") Chi tiết
+                  a(href=`/admin/model/deleteHotspot/${model.id}/${item.id}` class="btn btn-danger btn-sm deleteHotspots") Xóa
+      else
+        p.text-muted Danh sách hotspot: Rỗng.
+
+      // Nút hành động dưới cùng
+      div.mt-4.d-flex.gap-2
+        a(href=`/admin/model/addHotspot/${model.id}` class="btn btn-success") ➕ Thêm hotspot
+        a(href="/admin/model" class="btn btn-secondary") ⬅ Quay lại
+    script.
+      const deleteHotspots = document.querySelectorAll(".deleteHotspots") ;
+      deleteHotspots.forEach(button => {
+        button.addEventListener("click", (e) => {
+          if (!confirm("Bạn có chắc chắn muốn xóa hotspot này?")) {
+            e.preventDefault(); // Ngăn không gửi request nếu bấm "Hủy"
+          }
+        });
+      }) ;
+
+
+    
