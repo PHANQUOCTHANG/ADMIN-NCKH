@@ -3,26 +3,17 @@ const router = express.Router() ;
 
 const controllerModel = require("../../controller/admin/model.controller")
 
-//[GET] view list hotspot .
+//[GET] view list model.
 router.get("/" , controllerModel.index) ;
 
-//[GET] view create hotspot .
+//[GET] view create model .
 router.get("/create" , controllerModel.create) ;
 
-//[POST] create hotspot .
+//[POST] create model .
 router.post("/create" , controllerModel.createPost) ;
 
-//[GET] view detail .
+//[GET] view detail model.
 router.get("/detail/:id" , controllerModel.detail) ;
-
-//[GET] view add hotspot in model .
-router.get("/addHotspot/:modelId" , controllerModel.addHotspot) ;
-
-//[GET] add hotspot in model .
-router.post("/addHotspot/:modelId" , controllerModel.addHotspotPost) ;
-
-//[GET] delete hotspot in model .
-router.get("/deleteHotspot/:modelId/:hotspotId" , controllerModel.deleteHotspot) ;
 
 //[GET] view edit model .
 router.get("/edit/:modelId" , controllerModel.edit) ;
@@ -34,7 +25,17 @@ router.patch("/edit/:modelId" , controllerModel.editPatch) ;
 router.delete("/delete/:modelId" , controllerModel.delete) ;
 
 //[PATCH] change-all .
-router.patch("/change-all" , controllerModel.changeAll)
+router.patch("/change-all" , controllerModel.changeAll) ;
+
+
+//[GET] view add hotspot in model .
+router.get("/addHotspot/:modelId" , controllerModel.addHotspot) ;
+
+//[GET] add hotspot in model .
+router.post("/addHotspot/:modelId" , controllerModel.addHotspotPost) ;
+
+//[GET] delete hotspot in model .
+router.get("/deleteHotspot/:modelId/:hotspotId" , controllerModel.deleteHotspot) ;
 
 
 module.exports = router ; 

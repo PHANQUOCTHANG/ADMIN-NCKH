@@ -133,3 +133,73 @@ module.exports.delete = async (req, res) => {
     res.redirect("/admin/assignment");
   } catch {}
 };
+
+//[PATCH] change all .
+module.exports.changeAll = async (req, res) => {
+  try {
+    // const updateBy = {
+    //   account_id: res.locals.user.id,
+    //   updateAt: new Date(),
+    // };
+    const modelId = req.body.assignmentId ;
+    const type = req.body.type;
+    const ids = req.body.ids.split(", ");
+    console.log(modelId);
+    console.log(type);
+    console.log(ids);
+
+    switch (type) {
+      // case "active":
+      //   await Model.updateMany(
+      //     { _id: { $in: ids } },
+      //     {
+      //       status: "active",
+      //       // $push: { updateBy: updateBy },
+      //     }
+      //   );
+      //   break;
+      // case "inactive":
+      //   await Model.updateMany(
+      //     { _id: { $in: ids } },
+      //     {
+      //       status: "inactive",
+      //       // $push: { updateBy: updateBy },
+      //     }
+      //   );
+      //   break;
+      // case "add": {
+      //   // await Model.updateOne(
+      //   //   { _id: modelId },
+      //   //   { $push: { hotspots: { $each: ids } } }
+      //   // ) ;
+      //   for (const id of ids) {
+      //     await Model.updateOne(
+      //       { _id: modelId },
+      //       { $push: { hotspots: {hotspot_id : id} }}
+      //     );
+      //   }
+      //   req.flash("success", "Thêm thành công");
+      //   break;
+      // }
+      case "delete":
+        // const deleteBy = {
+        //   account_id: res.locals.user.id,
+        //   deleteAt: new Date(),
+        // };
+        await Assignment.updateMany(
+          { _id: { $in: ids } },
+          { delete: true }
+          // { delete: true, deleteBy: deleteBy }
+        );
+        req.flash("success", "Xóa thành công");
+        break;
+      default:
+        break;
+    }
+  } catch {
+    req.flash("error", "Xóa thất bại");
+  }
+
+  res.redirect("back");
+};
+
