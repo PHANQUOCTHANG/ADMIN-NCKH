@@ -1,22 +1,30 @@
-
 extends ../../layout/default.pug
 include ../../mixin/form.pug
 include ../../mixin/alert.pug
+
 block main
-    body
-      //- alert
-      - if (messages.success)
-        +alert-success()
-      - if (messages.error)
-        +alert-error()
+  body
+    //- Alert
+    - if (messages.success)
+      +alert-success()
+    - if (messages.error)
+      +alert-error()
+
+    div(class="d-flex")
       //- Sidebar
-      div(class="d-flex")
-        include ../../partial/sidebar.pug
-        div(class="container my-5" style="width: 85%;")
+      include ../../partial/sidebar.pug
+
+      //- Content area
+      div(class="container d-flex flex-column" style="width: 85%; min-height: 100vh;")
+        //- Main content grows
+        div(class="flex-grow-1 my-5")
           h1(class="mb-4") #{title}
-          -const url_changeAll = "/admin/hotspot/change-all" 
-          -const url_create = "/admin/hotspot/create"  
+
+          - const url_changeAll = "/admin/hotspot/change-all"
+          - const url_create = "/admin/hotspot/create"
           +form-change-all(url_changeAll , url_create)
+          +form-search
+
           table(class="table table-bordered table-hover")
             thead
               tr
@@ -24,47 +32,56 @@ block main
                   input(type="checkbox" name="check-all")
                 th(scope="col") STT
                 th(scope="col") Hình ảnh
-                th(scope="col")  Slot 
+                th(scope="col") Slot 
                 th(scope="col") Tọa độ x
                 th(scope="col") Tọa độ y
                 th(scope="col") Tọa độ z 
                 th(scope="col") Thông tin
                 th(scope="col") Trạng thái 
                 th(scope="col") Hành động
+
             tbody
-              each item, index in hotspot
+              if hotspot.length > 0
+                each item, index in hotspot
+                  tr
+                    td
+                      input(type="checkbox" name="id" value=item._id)
+                    td #{index + 1}
+                    td
+                      img(src=`${item.img}` alt="" class="img-thumbnail" style="width:100px; height:100px;")
+                    td #{item.slot}
+                    td #{item.x}
+                    td #{item.y}
+                    td #{item.z}
+                    td #{item.info}
+                    td
+                      span(class=`badge ${item.status === 'active' ? 'bg-success' : 'bg-secondary'}`) #{item.status}
+                    td
+                      a(href=`/admin/hotspot/edit/${item.id}` class="btn btn-warning btn-sm me-2") Sửa
+                      a(href=`/admin/hotspot/detail/${item.id}` class="btn btn-primary btn-sm me-2") Chi tiết 
+                      button(class="btn btn-danger btn-sm button-delete" data-id=item._id) Xóa
+              else
                 tr
-                  td
-                    input(type="checkbox" name="id" value=item._id)
-                  td #{index + 1}
-                  td
-                    img(src=`${item.img}` alt="" class="img-thumbnail" style="width:100px; height:100px;")
-                  td #{item.slot}
-                  td #{item.x}
-                  td #{item.y}
-                  td #{item.z}
-                  td #{item.info}
-                  td
-                    span(class=`badge ${item.status === 'active' ? 'bg-success' : 'bg-secondary'}`) #{item.status}
-                  td
-                    a(href=`/admin/hotspot/edit/${item.id}` class="btn btn-warning btn-sm me-2") Sửa
-                    a(href=`/admin/hotspot/detail/${item.id}` class="btn btn-primary btn-sm me-2") Chi tiết 
-                    button(class="btn btn-danger btn-sm button-delete" data-id=item._id) Xóa
+                  td(colspan="9" class="text-center text-muted") Không có hotspot nào.
 
-        //-   nav(aria-label="Page navigation")
-        //-     ul(class="pagination justify-content-center")
-        //-       if objPage.currentPage > 1
-        //-         li(class="page-item")
-        //-           button(class="page-link" number-page=objPage.currentPage-1) Trước
-        //-       - for (var i = 1; i <= objPage.totalPage; i++)
-        //-         li(class=`page-item ${objPage.currentPage === i ? 'active' : ''}`)
-        //-           button(class="page-link" number-page=i) #{i}
-        //-       if objPage.currentPage < objPage.totalPage
-        //-         li(class="page-item")
-        //-           button(class="page-link" number-page=objPage.currentPage+1) Tiếp
+        //- Pagination fixed dưới cùng
+        nav(aria-label="Page navigation")
+          ul(class="pagination justify-content-center mb-4")
+            if objPage.currentPage > 1
+              li(class="page-item")
+                button(class="page-link" number-page=objPage.currentPage-1) Trước
+            - for (var i = 1; i <= objPage.totalPage; i++)
+              li(class=`page-item ${objPage.currentPage === i ? 'active' : ''}`)
+                button(class="page-link" number-page=i) #{i}
+            if objPage.currentPage < objPage.totalPage
+              li(class="page-item")
+                button(class="page-link" number-page=objPage.currentPage+1) Tiếp
 
-        //-   form(action="" method="POST" id="form-changeStatus" data-path=`${prefixAdmin}/product/change-status`)
+    //- Form change status
+    form(action="" method="POST" id="form-changeStatus" data-path=`${prefixAdmin}/product/change-status`)
 
+    //- Form delete
+    form(action="" method="POST" id="form-delete" data-path="/admin/hotspot/delete")
 
-        form(action="" method="POST" id="form-delete" data-path=`/admin/hotspot/delete`)
-      script(src="/admin/js/script.js")
+    //- Script
+    script(src="/admin/js/script.js")

@@ -1,22 +1,28 @@
-
 extends ../../layout/default.pug
 include ../../mixin/form.pug
 include ../../mixin/alert.pug
+
 block main
-    body
-      //- alert 
-      - if (messages.success)
-        +alert-success()
-      - if (messages.error)
-        +alert-error()
-      //- Sidebar
-      div(class="d-flex")
-        include ../../partial/sidebar.pug
-        div(class="container my-5" style="width: 85%;")
+  body
+    //- alert 
+    - if (messages.success)
+      +alert-success()
+    - if (messages.error)
+      +alert-error()
+
+    //- Bố cục chính: Sidebar + Nội dung
+    div(class="d-flex")
+      include ../../partial/sidebar.pug
+
+      //- Nội dung chính
+      div(class="container d-flex flex-column" style="width: 85%; min-height: 100vh;")
+        //- Phần nội dung có thể thay đổi chiều cao
+        div(class="flex-grow-1 my-5")
           h1(class="mb-4") #{title}
-          -const url_changeAll = "/admin/model/change-all" 
-          -const url_create = "/admin/model/create"  
-          +form-change-all(url_changeAll , url_create)
+          - const url_changeAll = "/admin/model/change-all" 
+          - const url_create = "/admin/model/create"  
+          +form-change-all(url_changeAll, url_create)
+          +form-search
           table(class="table table-bordered table-hover")
             thead
               tr
@@ -36,19 +42,21 @@ block main
                     a(href=`/admin/model/detail/${item.id}` class="btn btn-primary btn-sm me-2") Chi tiết
                     button(class="btn btn-danger btn-sm button-delete" data-id=item._id) Xóa
 
-          nav(aria-label="Page navigation")
-            ul(class="pagination justify-content-center")
-              if objPage.currentPage > 1
-                li(class="page-item")
-                  button(class="page-link" number-page=objPage.currentPage-1) Trước
-              - for (var i = 1; i <= objPage.totalPage; i++)
-                li(class=`page-item ${objPage.currentPage === i ? 'active' : ''}`)
-                  button(class="page-link" number-page=i) #{i}
-              if objPage.currentPage < objPage.totalPage
-                li(class="page-item")
-                  button(class="page-link" number-page=objPage.currentPage+1) Tiếp
+        //- Phân trang cố định ở cuối container
+        nav(aria-label="Page navigation")
+          ul(class="pagination justify-content-center mb-4")
+            if objPage.currentPage > 1
+              li(class="page-item")
+                button(class="page-link" number-page=objPage.currentPage-1) Trước
+            - for (var i = 1; i <= objPage.totalPage; i++)
+              li(class=`page-item ${objPage.currentPage === i ? 'active' : ''}`)
+                button(class="page-link" number-page=i) #{i}
+            if objPage.currentPage < objPage.totalPage
+              li(class="page-item")
+                button(class="page-link" number-page=objPage.currentPage+1) Tiếp
 
-        //- -   form(action="" method="POST" id="form-changeStatus" data-path=`admin/model/change-status`)
+    //- Form xử lý xóa
+    form(action="" method="POST" id="form-delete" data-path=`/admin/model/delete`)
 
-        form(action="" method="POST" id="form-delete" data-path=`/admin/model/delete`)
-      script(src="/admin/js/script.js")
+    //- Script
+    script(src="/admin/js/script.js")

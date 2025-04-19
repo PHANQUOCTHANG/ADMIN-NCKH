@@ -3,10 +3,41 @@ const Hotspot = require("../../model/hotspot.model");
 
 //[GET] view list hotspot .
 module.exports.index = async (req, res) => {
-  const hotspots = await Hotspot.find({ delete: false, status: "active" });
+  const find = {
+    delete: false,
+  };
+
+  if (req.query.status) find.status = req.query.status ;
+
+  if (req.query.keyword) {
+    const regex = new RegExp(req.body.keyword, "i");
+    find.name = regex;
+  }
+
+  const sort = {};
+  if (req.query.sortKey & req.query.sortValue)
+    sort[req.query.sortKey] = req.query.sortValue;
+
+  const objPage = {
+    limit: 5,
+    currentPage: 1,
+  };
+
+  if (req.query.page) objPage.currentPage = parseInt(req.query.page) ; ;
+
+  const countRecord = await Hotspot.countDocuments(find);
+
+  objPage.skip = (objPage.currentPage - 1) * objPage.limit ;
+  objPage.totalPage = Math.min(10, Math.ceil(countRecord / objPage.limit));
+
+  const hotspots = await Hotspot.find(find)
+    .sort(sort)
+    .skip(objPage.skip) 
+    .limit(objPage.limit)
   res.render("admin/pages/hotspot/index.pug", {
     title: "Danh sách hotspot",
     hotspot: hotspots,
+    objPage : objPage ,
   });
 };
 

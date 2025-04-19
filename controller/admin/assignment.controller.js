@@ -2,13 +2,39 @@ const Assignment = require("../../model/assignment.model");
 
 // view all assignments .
 module.exports.index = async (req, res) => {
-  const assignments = await Assignment.find({
+  const find = {
     delete: false,
-  });
+  };
+  if (req.query.keyword) {
+    const regex = new RegExp(req.body.keyword, "i");
+    find.name = regex;
+  }
+
+  const sort = {};
+  if (req.query.sortKey & req.query.sortValue)
+    sort[req.query.sortKey] = req.query.sortValue;
+
+  const objPage = {
+    limit: 5,
+    currentPage: 1,
+  };
+
+  if (req.query.page) objPage.currentPage = parseInt(req.query.page) ; ;
+
+  const countRecord = await Assignment.countDocuments(find);
+
+  objPage.skip = (objPage.currentPage - 1) * objPage.limit ;
+  objPage.totalPage = Math.min(10, Math.ceil(countRecord / objPage.limit));
+
+  const assignments = await Assignment.find(find)
+    .sort(sort)
+    .skip(objPage.skip) 
+    .limit(objPage.limit)
 
   res.render("admin/pages/assignment/index", {
     title: "Assignment",
     assignments: assignments,
+    objPage : objPage ,
   });
 };
 
@@ -82,12 +108,15 @@ module.exports.editPatch = async (req, res) => {
         assignment.correct_answer = req.body.answerD;
         break;
     }
-    console.log(assignment) ;
-    await Assignment.updateOne({ _id: assignmentId }, {
-        question : assignment.question ,
-        answers : assignment.answers ,
-        correct_answer : assignment.correct_answer ,
-    });
+    console.log(assignment);
+    await Assignment.updateOne(
+      { _id: assignmentId },
+      {
+        question: assignment.question,
+        answers: assignment.answers,
+        correct_answer: assignment.correct_answer,
+      }
+    );
     res.redirect("back");
   } catch {}
 };

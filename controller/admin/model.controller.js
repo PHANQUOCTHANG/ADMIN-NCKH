@@ -18,7 +18,7 @@ module.exports.index = async (req, res) => {
   }
 
   const objPage = {
-    limit: 6,
+    limit: 10,
     currentPage: 1,
   };
 
@@ -30,7 +30,7 @@ module.exports.index = async (req, res) => {
 
   const sizePage = await Model.countDocuments(find);
 
-  objPage.totalPage = Math.ceil(sizePage / objPage.limit);
+  objPage.totalPage = Math.min(10 , Math.ceil(sizePage / objPage.limit));
 
   // object sort
   let sort = {};
