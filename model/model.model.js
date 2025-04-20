@@ -3,13 +3,13 @@ const mongoose = require("mongoose");
 const modelSchema = new mongoose.Schema({
   name: String,
   linkFile: String,
+  description: String,
+  thumbnail: String,
   hotspots: [
     {
       hotspot_id: String,
     },
   ],
-  thumbnail: String,
-  description: String,
   delete: {
     type: Boolean,
     default: false,

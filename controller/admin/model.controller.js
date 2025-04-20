@@ -29,6 +29,7 @@ module.exports.index = async (req, res) => {
   objPage.skip = (objPage.currentPage - 1) * objPage.limit;
 
   const sizePage = await Model.countDocuments(find);
+  console.log(sizePage) ;
 
   objPage.totalPage = Math.min(10 , Math.ceil(sizePage / objPage.limit));
 
@@ -48,7 +49,6 @@ module.exports.index = async (req, res) => {
     .sort(sort)
     .limit(objPage.limit)
     .skip(objPage.skip);
-    console.log(model) ;
   res.render("admin/pages/model/index", {
     title: "Danh sách Model",
     model: model,
@@ -122,8 +122,13 @@ module.exports.editPatch = async (req, res) => {
   try {
     const modelId = req.params.modelId;
     console.log(req.body);
-    await Model.updateOne({ _id: modelId }, req.body);
-    res.redirect("back");
+    await Model.updateOne({ _id: modelId }, {
+      name : req.body.name ,
+      linkFile : req.body.linkFile ,
+      description : req.body.description ,  
+      thumbnail : req.body.thumbnail ,
+    });
+    res.redirect("/admin/model");
   } catch {
     console.log("error");
   }
@@ -137,7 +142,7 @@ module.exports.delete = async (req, res) => {
   } catch {
     console.log("Delete no success");
   }
-  res.redirect("/admin/model");
+  res.redirect("back");
 };
 
 // view add hotspot in model .
