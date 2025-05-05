@@ -29,7 +29,6 @@ module.exports.index = async (req, res) => {
   objPage.skip = (objPage.currentPage - 1) * objPage.limit;
 
   const sizePage = await Model.countDocuments(find);
-  console.log(sizePage) ;
 
   objPage.totalPage = Math.min(10 , Math.ceil(sizePage / objPage.limit));
 
@@ -104,10 +103,11 @@ module.exports.edit = async (req, res) => {
   try {
     const modelId = req.params.modelId;
     const model = await Model.findOne({
-      delete: false,
       _id: modelId,
+      delete: false,
     });
-    console.log(model.id) ;
+    console.log(modelId) ;
+    console.log(model) ;
     res.render("admin/pages/model/edit.pug", {
       title: "Cập nhật model",
       model: model,
@@ -121,6 +121,7 @@ module.exports.edit = async (req, res) => {
 module.exports.editPatch = async (req, res) => {
   try {
     const modelId = req.params.modelId;
+    console.log(modelId) ;
     console.log(req.body);
     await Model.updateOne({ _id: modelId }, {
       name : req.body.name ,
