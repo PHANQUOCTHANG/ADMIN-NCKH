@@ -5,6 +5,9 @@ const { model } = require("mongoose");
 
 // [GET] views model .
 module.exports.index = async (req, res) => {
+  // const models = await Model.find({delete : false}) ;
+  // console.log(models.length) ;
+  // console.log(models) ;
   const status = req.query.status;
   const find = {
     delete: false,
@@ -30,9 +33,9 @@ module.exports.index = async (req, res) => {
 
   const sizePage = await Model.countDocuments(find);
 
-  objPage.totalPage = Math.min(10 , Math.ceil(sizePage / objPage.limit));
+  objPage.totalPage = Math.min(10, Math.ceil(sizePage / objPage.limit));
 
-  // object sort
+  // // object sort
   let sort = {};
   if (req.query.sortKey && req.query.sortValue) {
     const sortKey = req.query.sortKey;
@@ -40,10 +43,11 @@ module.exports.index = async (req, res) => {
     //khi thêm 1 key trong object mà key đó đang ở dạng string thì không thể dùng dấu '.' mà phải dùng  object[key]  .
     sort[sortKey] = sortValue;
   } else {
-    sort.position = "desc"; // key  không ở dạng string .
+    // sort.position = "desc"; // key  không ở dạng string .
   }
-  // End object sort
-
+  // // End object sort
+  console.log(find) ;
+  console.log(sort) ;
   const model = await Model.find(find)
     .sort(sort)
     .limit(objPage.limit)
@@ -106,8 +110,6 @@ module.exports.edit = async (req, res) => {
       _id: modelId,
       delete: false,
     });
-    console.log(modelId) ;
-    console.log(model) ;
     res.render("admin/pages/model/edit.pug", {
       title: "Cập nhật model",
       model: model,
@@ -121,14 +123,15 @@ module.exports.edit = async (req, res) => {
 module.exports.editPatch = async (req, res) => {
   try {
     const modelId = req.params.modelId;
-    console.log(modelId) ;
-    console.log(req.body);
-    await Model.updateOne({ _id: modelId }, {
-      name : req.body.name ,
-      linkFile : req.body.linkFile ,
-      description : req.body.description ,  
-      thumbnail : req.body.thumbnail ,
-    });
+    await Model.updateOne(
+      { _id: modelId },
+      {
+        name: req.body.name,
+        linkFile: req.body.linkFile,
+        description: req.body.description,
+        thumbnail: req.body.thumbnail,
+      }
+    );
     res.redirect("/admin/model");
   } catch {
     console.log("error");
@@ -254,7 +257,7 @@ module.exports.changeAll = async (req, res) => {
         for (const id of ids) {
           await Model.updateOne(
             { _id: modelId },
-            { $push: { hotspots: {hotspot_id : id} }}
+            { $push: { hotspots: { hotspot_id: id } } }
           );
         }
         req.flash("success", "Thêm thành công");

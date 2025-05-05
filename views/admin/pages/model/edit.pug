@@ -28,7 +28,7 @@ block main
           label.form-label(for="name") Tên :
           input.form-control(type="text" name="name" id="name" value=model.name)
         .mb-3
-          label.form-label(for="linkFile") Hình ảnh :
+          label.form-label(for="linkFile") Link Model :
           input.form-control(type="text" name="linkFile" id="linkFile" value=model.linkFile)
         .mb-3
           label.form-label(for="description") Mô tả :
@@ -39,3 +39,4 @@ block main
          img.img-preview.img-hotspots(src=model.thumbnail || "", alt="Preview")
         button.btn.btn-primary(type="submit") Gửi
     script(src="/admin/js/script.js") 
+    script(src="/admin/js/hotspot.js") 

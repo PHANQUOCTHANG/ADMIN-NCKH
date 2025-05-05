@@ -1,7 +1,7 @@
 const input = document.querySelector('.img-hotspots-input');
 const preview = document.querySelector('.img-hotspots');
 if (input && preview) {
-  input.addEventListener('input', () => {
+  input.addEventListener('change', () => {
     const url = input.value.trim();
     preview.src = url;
 
