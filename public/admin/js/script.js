@@ -108,4 +108,25 @@ if (formChangeAll) {
     }
   });
 }
+
+// hotspot link model 
+const buttonLinkModel = document.querySelectorAll('.link-model');
+console.log(buttonLinkModel) ;
+if (buttonLinkModel.length > 0) {
+  const formLinkModel = document.querySelector("#form-linkModel");
+  const path = formLinkModel.getAttribute("data-path");
+  buttonLinkModel.forEach((button) => {
+    button.addEventListener("click", () => {
+      const isConfirm = confirm("Bạn chắc chắn muốn liên kết?");
+      if (isConfirm) {
+        const modelId = button.getAttribute("data-id");
+        console.log(modelId) ;
+        const newPath = `${path}/${modelId}?_method=PATCH` ;
+        console.log(newPath) ;
+        formLinkModel.action = newPath ;
+        formLinkModel.submit() ;
+      }
+    });
+  });
+}
 // END

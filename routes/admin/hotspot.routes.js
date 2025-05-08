@@ -25,6 +25,12 @@ router.patch("/edit/:id" , controllerHotspot.editPatch) ;
 router.delete("/delete/:id" , controllerHotspot.delete) ;
 
 //[PATCH] change-all .
-router.patch("/change-all" , controllerHotspot.changeAll)
+router.patch("/change-all" , controllerHotspot.changeAll) ;
+
+// [GET] hotspot link model .
+router.get("/link-model/:hotspotId/" , controllerHotspot.linkModel) ;
+
+//[PATCH] hotspot link model .
+router.patch("/link-model/:hotspotId/:modelId" , controllerHotspot.linkModelPatch) ;
 
 module.exports = router ;

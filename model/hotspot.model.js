@@ -9,6 +9,10 @@ const hotspotSchema = new mongoose.Schema(
         info: String,
         img: String,
         status : String ,
+        modelId : {
+            type : String , 
+            default : "" ,
+        } ,
         delete : {
             type : Boolean , 
             default : false ,

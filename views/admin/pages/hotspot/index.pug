@@ -59,7 +59,9 @@ block main
                     td
                       a(href=`/admin/hotspot/edit/${item.id}` class="btn btn-warning btn-sm me-2") Sửa
                       a(href=`/admin/hotspot/detail/${item.id}` class="btn btn-primary btn-sm me-2") Chi tiết 
+                      a(href=`/admin/hotspot/link-model/${item.id}` class="btn btn-primary btn-sm me-2") Liên kết mô hình 
                       button(class="btn btn-danger btn-sm button-delete" data-id=item._id) Xóa
+                    
               else
                 tr
                   td(colspan="9" class="text-center text-muted") Không có hotspot nào.
